@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flam/header.dart';
 import 'package:flam/instructions.dart';
@@ -97,9 +98,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         lastReadings.removeAt(0);
       }
 
+      List<double> wigglingValues = [
+        (noiseReading.maxDecibel) / 100,
+        1 - ((noiseReading.maxDecibel) / 100)
+      ];
+
       _controller.repeat(
-          min: 1 - ((noiseReading.maxDecibel) / 100),
-          max: (noiseReading.maxDecibel) / 100,
+          min: min(wigglingValues[0], wigglingValues[1]),
+          max: max(wigglingValues[0], wigglingValues[1]),
           reverse: true);
     });
   }
